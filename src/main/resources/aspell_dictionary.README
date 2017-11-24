@@ -1,0 +1,6 @@
+To generate 'aspell_dictionary' for yourself, you need to download aspell with polish language pack
+and then run the following command in the terminal:
+
+```
+aspell -d pl dump master | aspell -l pl expand > aspell_dictionary
+```
