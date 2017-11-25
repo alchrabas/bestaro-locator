@@ -6,9 +6,10 @@ import com.google.maps.model.{AddressComponent, AddressComponentType, GeocodingR
 
 import scala.collection.mutable.ListBuffer
 
-class GoogleLocationExtractor(locatorDatabase: LocatorDatabase, memoryCache: Boolean = true) extends AbstractLocationExtractor(locatorDatabase, memoryCache) {
+class GoogleLocationExtractor(locatorDatabase: LocatorDatabase, googleApiKey: String, memoryCache: Boolean = true)
+  extends AbstractLocationExtractor(locatorDatabase, memoryCache) {
 
-  private val geocodingClient = new CachedGoogleApiClient(locatorDatabase, countingLogger())
+  private val geocodingClient = new CachedGoogleApiClient(locatorDatabase, googleApiKey, countingLogger())
 
   private def countingLogger() = {
     var requests = 0

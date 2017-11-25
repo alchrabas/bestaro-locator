@@ -1,12 +1,12 @@
 name := "bestaro-locator"
 
-version := "0.1"
+version := "0.9"
 
 scalaVersion := "2.12.4"
 
 lazy val commonSettings = Seq(
   organization := "bestaro-locator",
-  version := "0.9-SNAPSHOT",
+  version := "0.9",
   scalaVersion := "2.12.2",
   resolvers += "jitpack" at "https://jitpack.io"
 )

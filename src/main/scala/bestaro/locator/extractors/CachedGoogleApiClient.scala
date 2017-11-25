@@ -18,6 +18,7 @@ case class CacheEfficiency(cacheHits: Long, allQueries: Long) {
 }
 
 class CachedGoogleApiClient(locatorDatabase: LocatorDatabase,
+                            googleApiKey: String,
                             requestLogger: String => Unit = _ => Unit
                            ) {
 
@@ -25,10 +26,6 @@ class CachedGoogleApiClient(locatorDatabase: LocatorDatabase,
 
   private type listOfResults = java.util.List[GeocodingResult]
 
-  private val propertyFileResource = getClass.getClassLoader.getResource("google-api.properties")
-  private val googleApiPropertiesFIS = new FileInputStream(propertyFileResource.getFile)
-  private val properties = new Properties()
-  properties.load(googleApiPropertiesFIS)
 
   def search(queryString: String): List[GeocodingResult] = {
     locatorDatabase
@@ -36,7 +33,7 @@ class CachedGoogleApiClient(locatorDatabase: LocatorDatabase,
       .map { a => recordCacheHit(); a }
       .getOrElse {
         val context = new GeoApiContext.Builder()
-          .apiKey(properties.getProperty("apiKey"))
+          .apiKey(googleApiKey)
           .queryRateLimit(40)
           .build
         val results = GeocodingApi.geocode(context, queryString)
