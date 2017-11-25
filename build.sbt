@@ -30,3 +30,24 @@ lazy val root = (project in file("."))
       "org.scalamock" %% "scalamock-scalatest-support" % "3.5.0" % Test
     )
   )
+
+publishMavenStyle := true
+
+publishArtifact in Test := false
+
+pomIncludeRepository := { _ => false }
+
+scmInfo := Some(ScmInfo(
+  url("https://github.com/alchrabas/bestaro-locator.git"),
+  "scm:git:git@github.com:alchrabas/bestaro-locator.git",
+  Some("scm:git:git@github.com:alchrabas/bestaro-locator.git")))
+
+
+pomExtra :=
+  <developers>
+    <developer>
+      <id>alchrabas</id>
+      <name>Aleksander Chrabaszcz</name>
+      <url>https://github.com/alchrabas/</url>
+    </developer>
+  </developers>
