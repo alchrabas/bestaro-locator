@@ -5,6 +5,8 @@ import bestaro.locator.types.{Location, LocationType, Voivodeship}
 import bestaro.locator.util.BaseNameProducer
 import com.github.tototoshi.csv.{CSVReader, DefaultCSVFormat}
 
+import scala.io.Source
+
 object PolishInflectedTownNamesGenerator {
 
   implicit object MyFormat extends DefaultCSVFormat {
@@ -36,8 +38,8 @@ class PolishInflectedTownNamesGenerator {
   private val TOWN_NAMES_CSV = "gus/TERC_Adresowy_2017-07-17.csv"
 
   def loadTownEntriesFromTerytFile(): Seq[InflectedLocation] = {
-    val townNamesResource = getClass.getClassLoader.getResource(TOWN_NAMES_CSV)
-    val reader = CSVReader.open(townNamesResource.getFile)
+    val townNamesResource = getClass.getClassLoader.getResourceAsStream(TOWN_NAMES_CSV)
+    val reader = CSVReader.open(Source.fromInputStream(townNamesResource))
     reader.allWithHeaders()
       .filterNot(row => row("NAZWA_DOD") == "województwo")
       .map(convertToTownEntry)
@@ -57,8 +59,8 @@ class PolishInflectedTownNamesGenerator {
   private val VOIVODESHIP_COLUMN = "Województwo"
 
   def loadTownEntriesFromUrzedowyWykazNazwMiejscowosciCSV(): Seq[InflectedLocation] = {
-    val townNamesResource = getClass.getClassLoader.getResource(URZEDOWY_WYKAZ_NAZW_CSV)
-    val reader = CSVReader.open(townNamesResource.getFile)
+    val townNamesResource = getClass.getClassLoader.getResourceAsStream(URZEDOWY_WYKAZ_NAZW_CSV)
+    val reader = CSVReader.open(Source.fromInputStream(townNamesResource))
     val dataFromWykaz = reader.allWithHeaders()
     val towns = dataFromWykaz
       .filter(row =>

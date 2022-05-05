@@ -1,8 +1,7 @@
 package bestaro.locator.inflection
 
-import java.io.File
-import java.util.zip.ZipFile
-
+import java.io.InputStream
+import java.util.zip.ZipInputStream
 import scala.collection.mutable
 import scala.io.Source
 
@@ -34,12 +33,12 @@ class PolishAspellInflectionAnalyzer extends InflectionAnalyzer {
     )
   }
 
-  private def readAspellDictionaryFromArchive = {
-    val zippedAspellDictionary = new File(getClass.getClassLoader.getResource("aspell_dictionary.zip").getFile)
-
-    val zipFile = new ZipFile(zippedAspellDictionary)
-    val entry = zipFile.getEntry("aspell_dictionary")
-
-    zipFile.getInputStream(entry)
+  private def readAspellDictionaryFromArchive: InputStream = {
+    val zippedAspellDictionary = new ZipInputStream(getClass.getClassLoader.getResourceAsStream("aspell_dictionary.zip"))
+    val entry = zippedAspellDictionary.getNextEntry
+    if (entry.getName != "aspell_dictionary") {
+      throw new IllegalStateException("Invalid aspell_dictionary.zip - it doesn't have a single file aspell_dictionary")
+    }
+    zippedAspellDictionary
   }
 }
