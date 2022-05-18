@@ -89,4 +89,6 @@ So as you can see if the city name is mentioned in the message, then it's used t
 A: Right now it's meant only for Polish with little possibility to configure it. For example list of Voivodeships is hard-coded for Poland. Maybe it will become more configurable in the future, but doing it for Polish meant solving lots of problems which just don't exist in languages where the name of the town/street is not inflected.  
 IMO the best bet is to look for some other library or create a new one, which is focused on the list of all town and street names. For example for English you could probably use Nominatim instead of Google Maps (because it has much less restrictions). Google Maps is necessary for Polish, because, unlike Nominatin, it handles inflection pretty well.
 
+## How to release a new version
 
+Create and push a new tag.

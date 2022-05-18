@@ -4,9 +4,9 @@ import bestaro.locator.types.{Flag, Gender, PartOfSpeech}
 import morfologik.stemming.WordData
 import morfologik.stemming.polish.PolishStemmer
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
 
-class InflectionUtilTest extends FunSpec with MockFactory {
+class InflectionUtilTest extends AnyFunSpec with MockFactory {
   /*
     * It's impossible to instantiate WordData outside of PolishStemmer, so it's necessary to depend on lookup method.
     */

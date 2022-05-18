@@ -3,15 +3,12 @@ package bestaro.locator.inflection
 import bestaro.locator.types
 import bestaro.locator.types.{Location, LocationType, Voivodeship}
 import bestaro.locator.util.BaseNameProducer
-import com.github.tototoshi.csv.{CSVReader, DefaultCSVFormat}
+import com.opencsv.{CSVParserBuilder, CSVReaderHeaderAwareBuilder}
 
-import scala.io.Source
+import java.io.{InputStream, InputStreamReader}
+import scala.collection.JavaConverters._
 
 object PolishInflectedTownNamesGenerator {
-
-  implicit object MyFormat extends DefaultCSVFormat {
-    override val delimiter = ';'
-  }
 
   def main(args: Array[String]): Unit = {
     val converter = new PolishInflectedTownNamesGenerator
@@ -38,9 +35,8 @@ class PolishInflectedTownNamesGenerator {
   private val TOWN_NAMES_CSV = "gus/TERC_Adresowy_2017-07-17.csv"
 
   def loadTownEntriesFromTerytFile(): Seq[InflectedLocation] = {
-    val townNamesResource = getClass.getClassLoader.getResourceAsStream(TOWN_NAMES_CSV)
-    val reader = CSVReader.open(Source.fromInputStream(townNamesResource))
-    reader.allWithHeaders()
+    val terytEntries = csvInputStreamToMap(getClass.getClassLoader.getResourceAsStream(TOWN_NAMES_CSV))
+    terytEntries
       .filterNot(row => row("NAZWA_DOD") == "województwo")
       .map(convertToTownEntry)
   }
@@ -59,9 +55,8 @@ class PolishInflectedTownNamesGenerator {
   private val VOIVODESHIP_COLUMN = "Województwo"
 
   def loadTownEntriesFromUrzedowyWykazNazwMiejscowosciCSV(): Seq[InflectedLocation] = {
-    val townNamesResource = getClass.getClassLoader.getResourceAsStream(URZEDOWY_WYKAZ_NAZW_CSV)
-    val reader = CSVReader.open(Source.fromInputStream(townNamesResource))
-    val dataFromWykaz = reader.allWithHeaders()
+    val dataFromWykaz = csvInputStreamToMap(getClass.getClassLoader.getResourceAsStream(URZEDOWY_WYKAZ_NAZW_CSV))
+
     val towns = dataFromWykaz
       .filter(row =>
         Set("wieś", "miasto").contains(row(KIND_COLUMN))
@@ -167,6 +162,16 @@ class PolishInflectedTownNamesGenerator {
 
   def generateBinaryInflectedTownNamesCache(): Seq[InflectedLocation] = {
     generateInflectedForms(loadTownEntriesFromUrzedowyWykazNazwMiejscowosciCSV())
+  }
+
+  private def csvInputStreamToMap(csvStream: InputStream): List[Map[String, String]] = {
+    val csvEntries = new CSVReaderHeaderAwareBuilder(new InputStreamReader(csvStream))
+      .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+      .build()
+    Iterator.continually(csvEntries.readMap())
+      .takeWhile(_ != null)
+      .map(_.asScala.toMap)
+      .toList
   }
 
   val VOIVODESHIP_BY_ID = Map(

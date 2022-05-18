@@ -1,8 +1,8 @@
 package bestaro.locator.util
 
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
 
-class PolishCharactersAsciizerTest extends FunSpec {
+class PolishCharactersAsciizerTest extends AnyFunSpec {
 
   describe("Characters asciizer") {
     val asciizer = new PolishCharactersAsciizer()

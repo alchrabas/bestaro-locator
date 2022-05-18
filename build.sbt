@@ -1,20 +1,12 @@
 name := "bestaro-locator"
 
-version := "0.9.4"
-
-scalaVersion := "2.12.4"
-
-lazy val commonSettings = Seq(
-  organization := "bestaro-locator",
-  version := "0.9.4",
-  scalaVersion := "2.12.4",
-  resolvers += "jitpack" at "https://jitpack.io"
-)
-
 lazy val root = (project in file("."))
   .settings(
-    commonSettings,
     name := "bestaro-locator",
+    organization := "bestaro-locator",
+    version := "0.9.4",
+    scalaVersion := "2.12.4",
+    resolvers += "jitpack" at "https://jitpack.io",
     libraryDependencies ++= Seq(
       "com.typesafe.play" %% "play-json" % "2.9.2",
       "com.beachape" %% "enumeratum" % "1.7.0",
@@ -23,7 +15,7 @@ lazy val root = (project in file("."))
       "com.google.guava" % "guava" % "23.0",
       "com.google.maps" % "google-maps-services" % "0.2.1",
       "com.typesafe.slick" %% "slick" % "3.3.3",
-      "com.github.tototoshi" %% "scala-csv" % "1.3.9",
+      "com.opencsv" % "opencsv" % "5.6",
       "org.xerial" % "sqlite-jdbc" % "3.8.9",
       "org.scalactic" %% "scalactic" % "3.2.9",
       "org.scalatest" %% "scalatest" % "3.2.9" % "test",

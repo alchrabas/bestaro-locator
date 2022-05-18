@@ -2,11 +2,11 @@ package bestaro.locator
 
 import morfologik.stemming.WordData
 import morfologik.stemming.polish.PolishStemmer
-import org.scalatest.FunSpec
+import org.scalatest.funspec.AnyFunSpec
 
 import scala.collection.JavaConverters._
 
-class MorfologikTest extends FunSpec {
+class MorfologikTest extends AnyFunSpec {
 
   private val stemmer = new PolishStemmer
 
