@@ -4,13 +4,13 @@ lazy val root = (project in file("."))
   .settings(
     name := "bestaro-locator",
     organization := "bestaro-locator",
-    version := "0.9.4",
+    version := "0.9.6",
     scalaVersion := "2.12.4",
     resolvers += "jitpack" at "https://jitpack.io",
     libraryDependencies ++= Seq(
-      "com.typesafe.play" %% "play-json" % "2.9.2",
-      "com.beachape" %% "enumeratum" % "1.7.0",
-      "com.beachape" %% "enumeratum-play-json" % "1.7.0",
+      "com.typesafe.play" %% "play-json" % "2.6.3",
+      "com.beachape" %% "enumeratum" % "1.5.12",
+      "com.beachape" %% "enumeratum-play-json" % "1.5.12-2.6.0-M7",
       "org.carrot2" % "morfologik-polish" % "2.1.8",
       "com.google.guava" % "guava" % "23.0",
       "com.google.maps" % "google-maps-services" % "0.2.1",
